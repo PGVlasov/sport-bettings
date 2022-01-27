@@ -42,3 +42,9 @@ code {
 .sport-event i {
   z-index: 2;
 }
+
+.btns {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}

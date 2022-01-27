@@ -14,9 +14,11 @@ export const Navbar: React.FC = () => {
           <li>
             <NavLink to="/profile">Profile</NavLink>
           </li>
-
           <li>
             <NavLink to="/about">Information</NavLink>
+          </li>
+          <li>
+            <NavLink to="/auth">Auth</NavLink>
           </li>
         </ul>
       </div>

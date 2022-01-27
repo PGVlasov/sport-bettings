@@ -1,10 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
+import { Reset } from "./components/Reset";
 import { SportEvent } from "./components/sportEvent";
 import { AboutPage } from "./pages/AboutPage";
+import { AuthPage } from "./pages/AuthPage";
 import { MainPage } from "./pages/MainPage";
 import { ProfilePage } from "./pages/PrifilePage";
+import { RegisterPage } from "./pages/RegisterPage";
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
           <Route element={<AboutPage />} path="/about" />
           <Route element={<SportEvent />} path="sportEvent/:id" />
           <Route element={<ProfilePage />} path="/profile" />
+          <Route element={<AuthPage />} path="/auth" />
+          <Route element={<RegisterPage />} path="/register" />
+          <Route element={<Reset />} path="/reset" />
         </Routes>
       </div>
     </BrowserRouter>
