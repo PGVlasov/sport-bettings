@@ -5,6 +5,7 @@ import { Reset } from "./components/Reset";
 import { SportEvent } from "./components/sportEvent";
 import { AboutPage } from "./pages/AboutPage";
 import { AuthPage } from "./pages/AuthPage";
+import { CreateEventPage } from "./pages/CreateEventPage";
 import { MainPage } from "./pages/MainPage";
 import { ProfilePage } from "./pages/PrifilePage";
 import { RegisterPage } from "./pages/RegisterPage";
@@ -16,6 +17,7 @@ function App() {
       <div className="container">
         <Routes>
           <Route element={<MainPage />} path="/" />
+          <Route element={<CreateEventPage />} path="/createEvent" />
           <Route element={<AboutPage />} path="/about" />
           <Route element={<SportEvent />} path="sportEvent/:id" />
           <Route element={<ProfilePage />} path="/profile" />
