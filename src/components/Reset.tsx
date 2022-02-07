@@ -23,19 +23,17 @@ export const Reset: React.FC = (props: any) => {
   const resetHandler = (event: React.MouseEvent) => {
     event.preventDefault();
 
-    // let data = {
-    //   email: userEmail,
-    // };
+    let data = {
+      email: userEmail,
+    };
 
-    // console.log(data);
-    //fetch("/auth//reset", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-type": "application/json",
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-
+    fetch("http://localhost:3001/reset", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     history("/auth");
   };
 

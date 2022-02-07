@@ -38,6 +38,19 @@ export const Auth = (props: any) => {
 
   const authHandler = (event: React.MouseEvent) => {
     event.preventDefault();
+
+    let data = {
+      email: userEmail,
+      password: userPassword,
+    };
+
+    fetch("http://localhost:3001/auth", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     console.log({ userEmail, userPassword });
   };
 

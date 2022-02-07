@@ -1,52 +1,116 @@
+import { type } from "os";
+import { title } from "process";
 import React, { useState } from "react";
 import { IEvents } from "../interFaces";
 
 // interface EventFormProps {
 //   addEvent(eventName: string): void;
 // }
+type Event = {
+  Sides: [Sides];
+};
 
-export const CreateEvent: React.FC = (props: any) => {
+type Rival = {
+  // id: string;
+  title: string;
+};
+
+type Sides = "side1" | "side2";
+
+// type Rivals = {
+//   side1: Rival | null;
+//   side2: Rival | null;
+// };
+
+type Rivals2 = Record<Sides, Rival | undefined>;
+
+// const rivals1: Rivals = {
+//   side1: {
+//     title: "some title",
+//   },
+//   side2: {
+//     title: "asdasdasd",
+//   },
+// };
+
+// type Props = {
+//   sendData: (rivals: Rival[]) => void;
+// };
+
+export const CreateEvent = (props: any) => {
   const [eventName, setEventName] = useState<string>("");
   const [events, setEvents] = useState<IEvents[]>([]);
-  const [rival1, setRival1] = useState<string>("");
-  const [rival2, setRival2] = useState<string>("");
+  const [rivals, setRivals] = useState<Rivals2>({
+    side1: undefined,
+    side2: undefined,
+  });
+  const [array, setArray] = useState<any[]>([]);
 
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changeTitleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setEventName(event.target.value);
   };
 
-  const changeHandler1 = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const setRival = (
+    side: Sides,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     event.preventDefault();
-    setRival1(event.target.value);
+    setRivals((prevState) => ({
+      ...prevState,
+      [side]: {
+        title: event.target.value,
+      },
+    }));
   };
-  const changeHandler2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  const setRivalEmpty = (
+    side: Sides,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     event.preventDefault();
-    setRival2(event.target.value);
+    setRivals((prevState) => ({
+      ...prevState,
+      [side]: {
+        title: "",
+      },
+    }));
   };
 
   const addRivalsHandler = (event: React.MouseEvent) => {
     event.preventDefault();
-    const evt = events.concat();
-    const index = evt.length + 1;
 
-    const eventItem = {
-      id: index,
-      rivals: [{ team1: rival1 }, { team2: rival2 }],
-    };
+    // const index = evt.length + 1
 
-    evt.push(eventItem);
-
-    setEvents(evt);
-    setRival1("");
-    setRival2("");
+    const newItem = rivals;
+    setArray((prev) => [...prev, newItem]);
+    //   title1: rivals[0],
+    //   title2: rivals[1]
+    // console.log(newItem);
+    // arr.push([newItem]);
+    // console.log(arr);
+    // console.log(arr[0].rivals);
+    console.log(array);
   };
 
   const createEventHandler = (event: React.MouseEvent) => {
     let data = {
-      events,
+      eventName: eventName,
+      rivalsArray: array,
     };
     console.log(data);
+    try {
+      fetch("http://localhost:3001/users", {
+        method: "POST",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    } catch (e) {
+      console.log(e);
+    }
 
     setEventName("");
   };
@@ -54,7 +118,7 @@ export const CreateEvent: React.FC = (props: any) => {
   const keyPressHandler = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
       props.addEvent(eventName);
-      setEventName("");
+      // setEventName("");
     }
   };
 
@@ -67,47 +131,50 @@ export const CreateEvent: React.FC = (props: any) => {
           id="title"
           placeholder="Введите название события"
           value={eventName}
-          onChange={changeHandler}
+          onChange={changeTitleHandler}
           onKeyPress={keyPressHandler}
         />
         <label htmlFor="title" className="active">
           Введите название
         </label>
-        <hr />
+
         <input
           type="text"
           id="title1"
-          placeholder="Соперник1"
-          value={rival1}
-          onChange={changeHandler1}
+          placeholder="Соперник 1"
+          value={rivals.side1?.title}
+          onChange={(e) => setRival("side1", e)}
           onKeyPress={keyPressHandler}
         />
-        <label htmlFor="title" className="active">
-          Введите название
-        </label>
+
         <input
           type="text"
           id="title2"
-          placeholder="Соперник1"
-          value={rival2}
-          onChange={changeHandler2}
+          placeholder="Соперник 2"
+          value={rivals.side2?.title}
+          onChange={(e) => setRival("side2", e)}
           onKeyPress={keyPressHandler}
         />
         <label htmlFor="title" className="active">
           Введите название
         </label>
-        <hr />
         <div className="btns">
           <button
-            disabled={rival1.length <= 2 || rival2.length <= 2}
             className="btn"
+            disabled={
+              rivals.side1?.title === undefined ||
+              rivals.side2?.title === undefined
+            }
             onClick={(event) => addRivalsHandler(event)}
           >
             Добавить пару
           </button>
 
           <button
-            disabled={events.length === 0}
+            disabled={
+              rivals.side1?.title === undefined ||
+              rivals.side2?.title === undefined
+            }
             className="btn red"
             onClick={(event) => createEventHandler(event)}
           >

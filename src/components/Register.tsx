@@ -53,6 +53,20 @@ export const Register = (props: any) => {
 
   const registerHandler = (event: React.MouseEvent) => {
     event.preventDefault();
+
+    let data = {
+      email: userEmail,
+      password: userPassword,
+      name: userName,
+    };
+
+    fetch("http://localhost:3001/register", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     history("/auth");
     console.log({ userEmail, userName, userPassword });
   };

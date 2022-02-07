@@ -4,6 +4,6 @@ export interface IEvent {
 }
 
 export interface IEvents {
-  id: number;
-  rivals: [{ team1: string }, { team2: string }];
+  title1: string;
+  title2: string;
 }
